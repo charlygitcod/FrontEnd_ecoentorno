@@ -96,57 +96,143 @@ const loginUsuario = async () => {
 <style>
 body {
   background: linear-gradient(to right, #e18dfa, #9acff3);
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
 }
 
 .form-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .form-wrapper {
   background-color: #f9f9f9;
-  padding: 20px;
+  padding: 30px;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
   text-align: center;
+  width: 100%;
+  max-width: 400px;
 }
 
 .logo {
-  width: 100px;
+  width: 80px;
   height: auto;
+  margin-bottom: 15px;
 }
 
 .app-name {
   color: #333;
-  margin-bottom: 20px;
+  margin: 0 0 20px 0;
+  font-size: 1.5rem;
+}
+
+h2 {
+  margin: 0 0 20px 0;
+  color: #444;
+  font-size: 1.3rem;
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+  font-weight: bold;
 }
 
 .form-input {
   width: 100%;
-  padding: 8px;
+  padding: 12px;
   box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 }
 
 .form-submit-button {
   background-color: #007bff;
   color: white;
-  padding: 10px;
+  padding: 12px;
   border: none;
+  border-radius: 4px;
   cursor: pointer;
   width: 100%;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.form-submit-button:hover {
+  background-color: #0056b3;
 }
 
 .form-error {
-  color: red;
+  color: #dc3545;
+  margin: 15px 0 0 0;
+  font-size: 0.9rem;
 }
 
 .form-success {
-  color: green;
+  color: #28a745;
+  margin: 15px 0 0 0;
+  font-size: 0.9rem;
+}
+
+/* Media Queries para diferentes tamaños de pantalla */
+@media (max-width: 768px) {
+  .form-wrapper {
+    padding: 25px;
+  }
+  
+  .app-name {
+    font-size: 1.3rem;
+  }
+  
+  h2 {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-wrapper {
+    padding: 20px;
+    max-width: 90%;
+  }
+  
+  .logo {
+    width: 70px;
+  }
+  
+  .app-name {
+    font-size: 1.2rem;
+  }
+  
+  .form-input, .form-submit-button {
+    padding: 10px;
+  }
+}
+
+@media (max-height: 600px) {
+  .form-container {
+    align-items: flex-start;
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
 }
 </style>
