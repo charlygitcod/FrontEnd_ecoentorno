@@ -73,7 +73,7 @@ const guardarCredencial = async () => {
 
   try {
     if (editModeCredencial.value) {
-      await axios.put(`http://localhost:8000/modificarcredencial/${empleado_documento.value}`, credencial);
+      await axios.put(`https://backendecoentorno-production.up.railway.app/modificarcredencial/${empleado_documento.value}`, credencial);
       await Swal.fire({
         title: 'Éxito',
         text: 'Credencial actualizada exitosamente',
@@ -81,7 +81,7 @@ const guardarCredencial = async () => {
         confirmButtonText: 'Aceptar',
       });
     } else {
-      await axios.post('http://localhost:8000/insertarcredencial', credencial);
+      await axios.post('https://backendecoentorno-production.up.railway.app/insertarcredencial', credencial);
       await Swal.fire({
         title: 'Éxito',
         text: 'Credencial agregada exitosamente',
@@ -104,7 +104,7 @@ const guardarCredencial = async () => {
 // Función para obtener la lista de credenciales
 const obtenerCredenciales = async () => {
   try {
-    const response = await axios.get('http://localhost:8000/consultarcredenciales');
+    const response = await axios.get('https://backendecoentorno-production.up.railway.app/consultarcredenciales');
     credenciales.value = response.data;
   } catch (error) {
     await Swal.fire({
@@ -133,7 +133,7 @@ const eliminarCredencial = async (empleado_documento) => {
     if (result.isConfirmed) {
       console.log(empleado_documento);
       
-      await axios.delete(`http://localhost:8000/eliminarcredencial/${empleado_documento}`);
+      await axios.delete(`https://backendecoentorno-production.up.railway.app/eliminarcredencial/${empleado_documento}`);
       await Swal.fire({
         title: 'Eliminado',
         text: 'Credencial eliminada exitosamente',

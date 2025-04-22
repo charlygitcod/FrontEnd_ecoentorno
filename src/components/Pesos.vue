@@ -112,7 +112,7 @@ const agregarRegistro = async () => {
       fecha,
       hora,
     };
-    const response = await axios.post('http://localhost:8000/insertarpesos', registroConFecha);
+    const response = await axios.post('https://backendecoentorno-production.up.railway.app/insertarpesos', registroConFecha);
     Swal.fire({
       icon: 'success',
       title: 'Registro agregado con éxito',
@@ -138,7 +138,7 @@ onMounted(async () => {
 
 const obtenerUsuario = async (documento) => {
   try {
-    const response = await axios.get('http://localhost:8000/consultarusuarios');
+    const response = await axios.get('https://backendecoentorno-production.up.railway.app/consultarusuarios');
     const usuario = response.data.find(user => user.documento === parseInt(documento));
     if (usuario) {
       Swal.fire({
@@ -154,7 +154,7 @@ const obtenerUsuario = async (documento) => {
 
 const obtenerRegistros = async (documento) => {
   try {
-    const response = await axios.get('http://localhost:8000/consultarpesos');
+    const response = await axios.get('https://backendecoentorno-production.up.railway.app/consultarpesos');
     registros.value = response.data.filter(
       registro => registro.empleado_documento === parseInt(documento)
     );

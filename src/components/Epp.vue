@@ -84,7 +84,7 @@ const obtenerFechaActual = () => {
 const agregarEntrega = async () => {
   try {
     const entregaConFecha = { ...nuevaEntrega.value, fecha: obtenerFechaActual() };
-    const response = await axios.post('http://localhost:8000/insertarepp', entregaConFecha);
+    const response = await axios.post('https://backendecoentorno-production.up.railway.app/insertarepp', entregaConFecha);
     entregas.value.push(response.data);
 
     Swal.fire({
@@ -106,7 +106,7 @@ const agregarEntrega = async () => {
 // Función para obtener las entregas de EPP
 const obtenerEntregas = async () => {
   try {
-    const response = await axios.get('http://localhost:8000/consultarepp');
+    const response = await axios.get('https://backendecoentorno-production.up.railway.app/consultarepp');
     entregas.value = response.data;
   } catch (error) {
     Swal.fire({
@@ -126,7 +126,7 @@ const mostrarBienvenida = async () => {
       return;
     }
     
-    const response = await axios.get('http://localhost:8000/consultarusuarios');
+    const response = await axios.get('https://backendecoentorno-production.up.railway.app/consultarusuarios');
     const usuario = response.data.find(user => user.documento === parseInt(documentoGuardado));
     
     if (usuario) {

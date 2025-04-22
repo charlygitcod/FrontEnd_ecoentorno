@@ -28,3 +28,5 @@ EXPOSE 8081
 
 # Comando para iniciar nginx
 CMD ["nginx", "-g", "daemon off;"]
+
+#falta hacer responsive

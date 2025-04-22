@@ -40,7 +40,7 @@ const menExito = ref('');
 const loginUsuario = async () => {
   try {
     // Enviar solicitud POST al backend para autenticar al usuario
-    const response = await axios.post('http://localhost:8000/login', {
+    const response = await axios.post('https://backendecoentorno-production.up.railway.app/login', {
       nombre_usuario: nombreUsuario.value,
       password: password.value,
     });

@@ -143,7 +143,7 @@ const rol = ref('administrador');
 
 const obtenerUsuarios = async () => {
   try {
-    const response = await axios.get('http://localhost:8000/consultarusuarios');
+    const response = await axios.get('https://backendecoentorno-production.up.railway.app/consultarusuarios');
     usuarios.value = response.data;
     usuariosFiltrados.value = usuarios.value; // Inicia con todos los usuarios
   } catch (error) {
@@ -187,7 +187,7 @@ const guardarUsuario = async () => {
 
   try {
     if (editModeUsuario.value) {
-      await axios.put(`http://localhost:8000/modificarusuario/${usuario.documento}`, usuario);
+      await axios.put(`https://backendecoentorno-production.up.railway.app/modificarusuario/${usuario.documento}`, usuario);
       await Swal.fire({
         title: 'Éxito',
         text: 'Usuario actualizado exitosamente',
@@ -195,7 +195,7 @@ const guardarUsuario = async () => {
         confirmButtonText: 'Aceptar',
       });
     } else {
-      await axios.post('http://localhost:8000/insertarusuario', usuario);
+      await axios.post('https://backendecoentorno-production.up.railway.app/insertarusuario', usuario);
       await Swal.fire({
         title: 'Éxito',
         text: 'Usuario agregado exitosamente',
@@ -245,7 +245,7 @@ const eliminarUsuario = async (documento) => {
     if (result.isConfirmed) {
       console.log(documento);
 
-    await axios.delete(`http://localhost:8000/eliminarusuario/${documento}`);
+    await axios.delete(`https://backendecoentorno-production.up.railway.app/eliminarusuario/${documento}`);
     await Swal.fire({
       title: 'Éxito',
       text: 'Usuario eliminado exitosamente',

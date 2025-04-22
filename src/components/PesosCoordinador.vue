@@ -99,7 +99,7 @@
   // Función para obtener registros
   const obtenerRegistros = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/consultarpesos');
+      const response = await axios.get('https://backendecoentorno-production.up.railway.app/consultarpesos');
       registros.value = response.data;
     } catch (error) {
       Swal.fire({ icon: 'error', title: 'Error', text: 'Error al obtener los registros.' });
@@ -115,7 +115,7 @@
         return;
       }
       
-      const response = await axios.get('http://localhost:8000/consultarusuarios');
+      const response = await axios.get('https://backendecoentorno-production.up.railway.app/consultarusuarios');
       const usuario = response.data.find(user => user.documento === parseInt(documentoGuardado));
       
       if (usuario) {
