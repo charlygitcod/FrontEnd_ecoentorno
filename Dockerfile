@@ -22,8 +22,8 @@ FROM nginx:alpine
 # Copia la build desde la etapa anterior
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Expone el puerto 80
-EXPOSE 8080
+# Expone el puerto
+EXPOSE 8081
 
 # Comando para iniciar nginx
 CMD ["nginx", "-g", "daemon off;"]
