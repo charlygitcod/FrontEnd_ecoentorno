@@ -10,20 +10,35 @@ COPY package*.json ./
 # Instala las dependencias
 RUN npm install
 
-# Copia el resto de los archivos del proyecto
+# Copia el resto del proyecto
 COPY . .
 
-# Construye la aplicación para producción
+# Construye el proyecto de producción
 RUN npm run build
 
 # Etapa 2: Servir la aplicación
 FROM nginx:alpine
 
-# Copia la build desde la etapa anterior
+# Copia la build
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Expone el puerto
-EXPOSE 8081
+# Instala envsubst para reemplazar variables de entorno en archivos de config
+RUN apk add --no-cache gettext
 
-# Comando para iniciar nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Crea una plantilla de configuración de nginx
+RUN printf 'server {\n\
+    listen ${PORT};\n\
+    server_name localhost;\n\
+    root /usr/share/nginx/html;\n\
+    index index.html;\n\
+\n\
+    location / {\n\
+        try_files $uri $uri/ /index.html;\n\
+    }\n\
+}\n' > /etc/nginx/templates/default.conf.template
+
+# Expone un puerto (solo referencia, Railway lo maneja igual)
+EXPOSE 8080
+
+# Comando de inicio: reemplazar variables de entorno y correr nginx
+CMD ["sh", "-c", "envsubst < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
