@@ -22,10 +22,13 @@ FROM nginx:alpine
 # Copia la build
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Instala envsubst para reemplazar variables de entorno en archivos de config
+# Instala envsubst para reemplazar variables de entorno
 RUN apk add --no-cache gettext
 
-# Crea una plantilla de configuración de nginx
+# Crea la carpeta de templates primero
+RUN mkdir -p /etc/nginx/templates
+
+# Ahora sí, crea el template de configuración
 RUN printf 'server {\n\
     listen ${PORT};\n\
     server_name localhost;\n\
@@ -37,7 +40,7 @@ RUN printf 'server {\n\
     }\n\
 }\n' > /etc/nginx/templates/default.conf.template
 
-# Expone un puerto (solo referencia, Railway lo maneja igual)
+# Expone un puerto (Railway igual inyecta el real)
 EXPOSE 8080
 
 # Comando de inicio: reemplazar variables de entorno y correr nginx
