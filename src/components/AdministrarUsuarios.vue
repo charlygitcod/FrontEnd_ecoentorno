@@ -8,53 +8,75 @@
     />
   </div>
 
-  <div id="contabla" class="form-container">
-    <div id="tabla" class="table-container">
-      <h2>Lista de Usuarios</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Documento</th>
-            <th>Nombre</th>
-            <th>Segundo Nombre</th>
-            <th>Apellido</th>
-            <th>Segundo Apellido</th>
-            <th>Correo</th>
-            <th>Teléfono</th>
-            <th>Edad</th>
-            <th>Dirección</th>
-            <th>Descripción</th>
-            <th>Fecha Registro</th>
-            <th>Rol</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="usuario in usuariosFiltrados" :key="usuario.documento">
-            <td>{{ usuario.documento }}</td>
-            <td>{{ usuario.nombre }}</td>
-            <td>{{ usuario.segundo_nombre }}</td>
-            <td>{{ usuario.apellido }}</td>
-            <td>{{ usuario.segundo_apellido }}</td>
-            <td>{{ usuario.correo }}</td>
-            <td>{{ usuario.telefono }}</td>
-            <td>{{ usuario.edad }}</td>
-            <td>{{ usuario.direccion }}</td>
-            <td>{{ usuario.descripcion }}</td>
-            <td>{{ usuario.fecha_registro }}</td>
-            <td>{{ usuario.rol }}</td>
-            <td>
-              <div class="actions-container">
-                <button @click="editarUsuario(usuario)" class="edit-btn">Editar</button>
-                <button @click="eliminarUsuario(usuario.documento)" class="delete-btn">Eliminar</button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+  <div class="form-container">
+    <div class="table-container">
+      <h2 class="Lusu">Lista de Usuarios</h2>
+      <div v-if="isMobile && usuarioActual" class="usuario-card">
+        <p><strong>Documento:</strong> {{ usuarioActual.documento }}</p>
+        <p><strong>Nombre:</strong> {{ usuarioActual.nombre }}</p>
+        <p><strong>Segundo Nombre:</strong> {{ usuarioActual.segundo_nombre }}</p>
+        <p><strong>Apellido:</strong> {{ usuarioActual.apellido }}</p>
+        <p><strong>Segundo Apellido:</strong> {{ usuarioActual.segundo_apellido }}</p>
+        <p><strong>Correo:</strong> {{ usuarioActual.correo }}</p>
+        <p><strong>Teléfono:</strong> {{ usuarioActual.telefono }}</p>
+        <p><strong>Edad:</strong> {{ usuarioActual.edad }}</p>
+        <p><strong>Dirección:</strong> {{ usuarioActual.direccion }}</p>
+        <p><strong>Descripción:</strong> {{ usuarioActual.descripcion }}</p>
+        <p><strong>Fecha Registro:</strong> {{ usuarioActual.fecha_registro }}</p>
+        <p><strong>Rol:</strong> {{ usuarioActual.rol }}</p>
+        <div class="actions-container">
+          <button @click="editarUsuario(usuarioActual)" class="edit-btn">Editar</button>
+          <button @click="eliminarUsuario(usuarioActual.documento)" class="delete-btn">Eliminar</button>
+        </div>
+        <div class="nav-buttons">
+          <button @click="anteriorUsuario" :disabled="currentIndex === 0">⬅️</button>
+          <button @click="siguienteUsuario" :disabled="currentIndex >= usuariosFiltrados.length - 1">➡️</button>
+        </div>
+      </div>
+      <table v-else>
+          <thead>
+            <tr>
+              <th>Documento</th>
+              <th>Nombre</th>
+              <th>Segundo Nombre</th>
+              <th>Apellido</th>
+              <th>Segundo Apellido</th>
+              <th>Correo</th>
+              <th>Teléfono</th>
+              <th>Edad</th>
+              <th>Dirección</th>
+              <th>Descripción</th>
+              <th>Fecha Registro</th>
+              <th>Rol</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="usuario in usuariosFiltrados" :key="usuario.documento">
+              <td>{{ usuario.documento }}</td>
+              <td>{{ usuario.nombre }}</td>
+              <td>{{ usuario.segundo_nombre }}</td>
+              <td>{{ usuario.apellido }}</td>
+              <td>{{ usuario.segundo_apellido }}</td>
+              <td>{{ usuario.correo }}</td>
+              <td>{{ usuario.telefono }}</td>
+              <td>{{ usuario.edad }}</td>
+              <td>{{ usuario.direccion }}</td>
+              <td>{{ usuario.descripcion }}</td>
+              <td>{{ usuario.fecha_registro }}</td>
+              <td>{{ usuario.rol }}</td>
+              <td>
+                <div class="actions-container">
+                  <button @click="editarUsuario(usuario)" class="edit-btn">Editar</button>
+                  <button @click="eliminarUsuario(usuario.documento)" class="delete-btn">Eliminar</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
     </div>
 
-    <div id="tablausuarios" class="form-wrapper">
+    <div class="form-wrapper">
       <h1>{{ editModeUsuario ? 'Editar Usuario' : 'Agregar Usuario' }}</h1>
       <form @submit.prevent="guardarUsuario">
         <div class="form-group">
@@ -119,7 +141,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch,computed, onBeforeUnmount } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
@@ -140,6 +162,43 @@ const edad = ref('');
 const direccion = ref('');
 const descripcion = ref('');
 const rol = ref('administrador');
+const currentIndex = ref(0);
+const isMobile = ref(window.innerWidth <= 420);
+
+const updateScreenSize = () => {
+  isMobile.value = window.innerWidth <= 420;
+};
+
+onMounted(() => {
+  window.addEventListener('resize', updateScreenSize);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', updateScreenSize);
+});
+
+
+const usuarioActual = computed(() => {
+  if (usuariosFiltrados.value.length === 0) return null;
+  return usuariosFiltrados.value[currentIndex.value];
+});
+
+const siguienteUsuario = () => {
+  if (currentIndex.value < usuariosFiltrados.value.length - 1) {
+    currentIndex.value++;
+  }
+};
+
+const anteriorUsuario = () => {
+  if (currentIndex.value > 0) {
+    currentIndex.value--;
+  }
+};
+
+// Reinicia índice cuando cambia el filtro
+watch(usuariosFiltrados, () => {
+  currentIndex.value = 0;
+});
 
 const obtenerUsuarios = async () => {
   try {
@@ -288,38 +347,19 @@ onMounted(() => {
 </script>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  top: 0;
-  left: 0;
-  right: 0;
-  
-}
-
 /* Estilos para el contenedor de búsqueda */
 .search-container {
   display: flex; 
   align-items: center; 
   justify-content: center;
   gap: 10px; 
-  margin: 20px 0;
-  background-color: #4CAF50;
-  
 }
-
-
 
 /* Estilos para el input de búsqueda */
 .search-input {
   height: 30px;
   padding: 5px;
+  margin-top: 20px;
   font-size: 16px; 
   width: 100%; /* Cambié el ancho para ser flexible */
   max-width: 400px; /* Límite máximo de ancho */
@@ -353,19 +393,17 @@ body {
 
 /* Estilo para el contenedor de la tabla */
 .table-container {
-  max-width: 100%;
-  margin-top: 20px; /* Ajusté el margen superior */
-  margin-bottom: 50px;
-  overflow-x: auto;
-  
+  width: 80%;
+  margin-top: 10px; /* Ajusté el margen superior */
+  margin-left: 50px;
 }
-
+.Lusu{
+  margin-left: 200px;
+}
 /* Estilos de la tabla */
 table {
-  max-width: 100%;
-  background-color: rgb(255, 255, 255);
+  background-color: antiquewhite;
   border-collapse: collapse;
-  
 }
 
 /* Estilo para las celdas de la tabla */
@@ -408,22 +446,20 @@ th {
 
 /* Estilos generales para el formulario */
 .form-wrapper {
-  width: 100%;
-  max-width: 50%;
-  margin: 100px;
+  background-color: #f9f9f9;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 93%;
+  margin: 50px;
   padding: 50px; /* Añadí un poco de padding para que no quede pegado a los bordes */
   box-sizing: border-box;
-  background-color: #e18dfa;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .form-container {
+  display: flex;
   flex-direction: column;
-  
-  
-  
-  
 }
 
 /* Estilo de los grupos de formulario */
@@ -443,11 +479,8 @@ th {
 
 /* Contenedor para los botones en el formulario */
 .cont-btn {
-  
   display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  justify-content: space-around;
   gap: 10px;
   flex-wrap: wrap; /* Esto ayuda a que los botones se acomoden mejor en pantallas pequeñas */
 }
@@ -474,44 +507,91 @@ th {
 .form-error, .form-success {
   color: red;
 }
-#contabla{
-  max-width: 100%;
+@media (max-width:420px){
+  .usuario-card {
+    background-color: antiquewhite;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 20px 10px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+  }
+
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+
+  .nav-buttons button {
+    background-color: #5c8df8;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+
+  .nav-buttons button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
 }
-
-#tabla{
-  max-width: 100%;
-}
-
-
-
-/* Media Query para pantallas pequeñas */
-@media (max-width: 500px) {
-  /* Cambia la dirección del contenedor de búsqueda a columna */
   .search-container {
-    width: 100%;
-    flex-direction: column;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  /* El input de búsqueda ocupará el 100% de su contenedor */
-  .search-input {
-    width: 100%;
-    max-width: 90%; /* Hace que el input ocupe más espacio en pantallas pequeñas */
-  }
-
-/* Contenedor de la tabla */
-.table-container {
-  max-width: 30%;
-  margin-left: auto;
-  margin-right: auto;
-  overflow-x: auto; /* Permite desplazamiento horizontal */
-  margin-top: 20px;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  gap: 10px; 
 }
 
-/* Estilo para la tabla */
-table {
+/* Estilos para el input de búsqueda */
+.search-input {
+  height: 30px;
+  padding: 5px;
+  margin-top: 20px;
+  font-size: 16px; 
+  width: 100%; /* Cambié el ancho para ser flexible */
+  max-width: 400px; /* Límite máximo de ancho */
+  border: 2px solid #ccc; 
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+/* Estilo para el enfoque del input de búsqueda */
+.search-input:focus {
+  border-color: #5c8df8; 
+}
+
+/* Estilo para el botón de búsqueda */
+.search-btn {
+  padding: 10px 20px; 
+  font-size: 16px; 
+  background-color: #5c8df8; 
+  color: white;
+  border: none; 
+  border-radius: 5px; 
+  cursor: pointer; 
+  transition: background-color 0.3s ease; 
+}
+
+/* Efecto hover para el botón de búsqueda */
+.search-btn:hover {
+  background-color: #4a7df2; 
+}
+
+/* Estilo para el contenedor de la tabla */
+.table-container {
   width: 100%;
+  margin-top: 10px; /* Ajusté el margen superior */
+  margin-left: 10px;
+}
+.Lusu{
+  margin-left: 0px;
+}
+/* Estilos de la tabla */
+table {
+  width: 0%;
+  background-color: antiquewhite;
   border-collapse: collapse;
 }
 
@@ -522,32 +602,99 @@ th, td {
   text-align: left;
 }
 
-  /* Estilos para los botones */
-  .cont-btn {
-    max-width: 100%;
-    flex-direction: column;
-    gap: 15px; /* Acomoda los botones en pantallas pequeñas */
-  }
-  
-  .form-submit-button, .form-toggle-button {
-    width: 100%; /* Los botones ocuparán todo el ancho disponible */
-  }
-
-  /* Ajustes a la forma */
-  .form-wrapper {
-    max-width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 20px; /* Reduce el padding en pantallas pequeñas */
-  }
-  /* Estilos de error y éxito en el formulario */
-  .form-success {
-    color: red;
-    max-width: 500px;
-  }
-  
-
-
+/* Estilo para los encabezados de la tabla */
+th {
+  background-color: #f2f2f2;
 }
 
+/* Contenedor de las acciones (editar/eliminar) */
+.actions-container {
+  display: flex;
+  gap: 10px;
+}
+
+/* Estilo para el botón de editar */
+.edit-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* Estilo para el botón de eliminar */
+.delete-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* Estilos generales para el formulario */
+.form-wrapper {
+  background-color: #f9f9f9;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin: 10px;
+  padding: 50px; /* Añadí un poco de padding para que no quede pegado a los bordes */
+  box-sizing: border-box;
+}
+
+.form-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Estilo de los grupos de formulario */
+.form-group {
+  width: 100%;
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+/* Estilo de los inputs y selects en el formulario */
+.form-input, .form-select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* Contenedor para los botones en el formulario */
+.cont-btn {
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+  flex-wrap: wrap; /* Esto ayuda a que los botones se acomoden mejor en pantallas pequeñas */
+}
+
+/* Estilo de los botones del formulario */
+.form-submit-button, .form-toggle-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 200px; /* Asegura que el botón no sea muy ancho en pantallas grandes */
+}
+
+/* Estilo para el botón para alternar entre agregar/editar */
+.form-toggle-button {
+  background-color: #f44336;
+  margin-left: 10px;
+}
+
+/* Estilos de error y éxito en el formulario */
+.form-error, .form-success {
+  color: red;
+}
 </style>
