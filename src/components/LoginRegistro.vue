@@ -5,7 +5,7 @@
       <img src="../components/icons/favicon-ecoentornos-1920w.png" alt="Logo de la App" class="logo" />
       
       <!-- Nombre de la aplicación -->
-      <h1 class="app-name">ECO-ENTORNO</h1>
+      <h1 class="app-name">SAFE-CONTROL</h1>
 
       <h2>Iniciar sesión</h2>
       <form @submit.prevent="loginUsuario">
