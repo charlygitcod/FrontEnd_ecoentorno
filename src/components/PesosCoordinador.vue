@@ -52,7 +52,7 @@
           </table>
         </div>
   
-        <div class="download-btn">
+        <div id="download-btn">
           <button @click="descargarExcel" class="form-submit-button">Descargar Excel</button>
         </div>
       </div>
@@ -190,8 +190,10 @@
     background-color: #f2f2f2;
   }
   
-  .download-btn {
+  #download-btn {
+    max-width: 100%;
     margin-top: 20px;
+    width: 100%;
   }
   
   .form-submit-button {

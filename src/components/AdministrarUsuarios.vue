@@ -8,8 +8,8 @@
     />
   </div>
 
-  <div class="form-container">
-    <div class="table-container">
+  <div id="contabla" class="form-container">
+    <div id="tabla" class="table-container">
       <h2>Lista de Usuarios</h2>
       <table>
         <thead>
@@ -54,7 +54,7 @@
       </table>
     </div>
 
-    <div class="form-wrapper">
+    <div id="tablausuarios" class="form-wrapper">
       <h1>{{ editModeUsuario ? 'Editar Usuario' : 'Agregar Usuario' }}</h1>
       <form @submit.prevent="guardarUsuario">
         <div class="form-group">
@@ -287,32 +287,54 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  
+}
+
+/* Estilos para el contenedor de búsqueda */
 .search-container {
   display: flex; 
   align-items: center; 
   justify-content: center;
   gap: 10px; 
   margin: 20px 0;
-  margin-top: 50px;
-  margin-bottom: -30px;
+  background-color: #4CAF50;
+  
 }
 
+
+
+/* Estilos para el input de búsqueda */
 .search-input {
   height: 30px;
   padding: 5px;
   font-size: 16px; 
-  width: 400px; 
+  width: 100%; /* Cambié el ancho para ser flexible */
+  max-width: 400px; /* Límite máximo de ancho */
   border: 2px solid #ccc; 
   border-radius: 5px;
   outline: none;
   transition: border-color 0.3s ease;
 }
 
+/* Estilo para el enfoque del input de búsqueda */
 .search-input:focus {
   border-color: #5c8df8; 
 }
 
+/* Estilo para el botón de búsqueda */
 .search-btn {
   padding: 10px 20px; 
   font-size: 16px; 
@@ -324,40 +346,47 @@ onMounted(() => {
   transition: background-color 0.3s ease; 
 }
 
+/* Efecto hover para el botón de búsqueda */
 .search-btn:hover {
   background-color: #4a7df2; 
 }
 
-
+/* Estilo para el contenedor de la tabla */
 .table-container {
   max-width: 100%;
-  margin-top: 800px;
+  margin-top: 20px; /* Ajusté el margen superior */
   margin-bottom: 50px;
-
+  overflow-x: auto;
   
 }
 
+/* Estilos de la tabla */
 table {
-  width: 100%;
-  background-color: antiquewhite;
+  max-width: 100%;
+  background-color: rgb(255, 255, 255);
   border-collapse: collapse;
+  
 }
 
+/* Estilo para las celdas de la tabla */
 th, td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
 }
 
+/* Estilo para los encabezados de la tabla */
 th {
   background-color: #f2f2f2;
 }
 
+/* Contenedor de las acciones (editar/eliminar) */
 .actions-container {
   display: flex;
   gap: 10px;
 }
 
+/* Estilo para el botón de editar */
 .edit-btn {
   background-color: #4CAF50;
   color: white;
@@ -367,6 +396,7 @@ th {
   border-radius: 5px;
 }
 
+/* Estilo para el botón de eliminar */
 .delete-btn {
   background-color: #f44336;
   color: white;
@@ -376,20 +406,33 @@ th {
   border-radius: 5px;
 }
 
-.form-wrapper{
+/* Estilos generales para el formulario */
+.form-wrapper {
   width: 100%;
+  max-width: 50%;
+  margin: 100px;
+  padding: 50px; /* Añadí un poco de padding para que no quede pegado a los bordes */
+  box-sizing: border-box;
+  background-color: #e18dfa;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .form-container {
-  display: flex;
   flex-direction: column;
+  
+  
+  
+  
 }
 
+/* Estilo de los grupos de formulario */
 .form-group {
   text-align: left;
   margin-bottom: 15px;
 }
 
+/* Estilo de los inputs y selects en el formulario */
 .form-input, .form-select {
   width: 100%;
   padding: 8px;
@@ -398,11 +441,18 @@ th {
   border-radius: 4px;
 }
 
-.cont-btn{
+/* Contenedor para los botones en el formulario */
+.cont-btn {
+  
   display: flex;
-  justify-content: space-around;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 10px;
+  flex-wrap: wrap; /* Esto ayuda a que los botones se acomoden mejor en pantallas pequeñas */
 }
 
+/* Estilo de los botones del formulario */
 .form-submit-button, .form-toggle-button {
   background-color: #4CAF50;
   color: white;
@@ -410,17 +460,94 @@ th {
   padding: 10px;
   cursor: pointer;
   border-radius: 4px;
+  width: 100%;
+  max-width: 200px; /* Asegura que el botón no sea muy ancho en pantallas grandes */
 }
 
-
-
+/* Estilo para el botón para alternar entre agregar/editar */
 .form-toggle-button {
   background-color: #f44336;
-  width: 100%;
   margin-left: 10px;
 }
 
+/* Estilos de error y éxito en el formulario */
 .form-error, .form-success {
   color: red;
 }
+#contabla{
+  max-width: 100%;
+}
+
+#tabla{
+  max-width: 100%;
+}
+
+
+
+/* Media Query para pantallas pequeñas */
+@media (max-width: 500px) {
+  /* Cambia la dirección del contenedor de búsqueda a columna */
+  .search-container {
+    width: 100%;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  /* El input de búsqueda ocupará el 100% de su contenedor */
+  .search-input {
+    width: 100%;
+    max-width: 90%; /* Hace que el input ocupe más espacio en pantallas pequeñas */
+  }
+
+/* Contenedor de la tabla */
+.table-container {
+  max-width: 30%;
+  margin-left: auto;
+  margin-right: auto;
+  overflow-x: auto; /* Permite desplazamiento horizontal */
+  margin-top: 20px;
+}
+
+/* Estilo para la tabla */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Estilo para las celdas de la tabla */
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+  /* Estilos para los botones */
+  .cont-btn {
+    max-width: 100%;
+    flex-direction: column;
+    gap: 15px; /* Acomoda los botones en pantallas pequeñas */
+  }
+  
+  .form-submit-button, .form-toggle-button {
+    width: 100%; /* Los botones ocuparán todo el ancho disponible */
+  }
+
+  /* Ajustes a la forma */
+  .form-wrapper {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px; /* Reduce el padding en pantallas pequeñas */
+  }
+  /* Estilos de error y éxito en el formulario */
+  .form-success {
+    color: red;
+    max-width: 500px;
+  }
+  
+
+
+}
+
 </style>

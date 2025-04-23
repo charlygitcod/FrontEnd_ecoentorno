@@ -1,8 +1,11 @@
 <template>
+   <header>
+    <h1>Registro de EPPS</h1>
+  </header>
   <div class="admin-section">
-    <h2>Registrar Entrega de EPP</h2>
+    
     <div class="content-container">
-      <div class="form-wrapper">
+      <div id="formulario" class="form-wrapper">
         <form @submit.prevent="agregarEntrega">
           <div class="form-group">
             <label for="documento">Documento del Empleado:</label>
@@ -32,7 +35,7 @@
         <input type="text" v-model="terminoBusqueda" placeholder="Documento, Nombre o Apellido" class="form-input" />
       </div>
 
-      <div class="table-container">
+      <div id="tabla" class="table-container">
         <table>
           <thead>
             <tr>
@@ -158,17 +161,32 @@ onMounted(() => {
 </script>
 
 <style scoped>
+
+header{
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: linear-gradient(to right,#9acff3, #e18dfa );
+  
+  
+}
+h1{
+  text-align: center;
+}
 .admin-section {
   padding: 20px;
 }
 
 .content-container {
-  display: flex;
-  flex-direction: column;
+ 
+  text-align: center;
+  
 }
 
 .form-wrapper {
   margin-bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .form-group {
@@ -187,6 +205,7 @@ onMounted(() => {
 .cont-btn {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .form-submit-button {
@@ -218,5 +237,16 @@ th, td {
 
 th {
   background-color: #f2f2f2;
+}
+
+@media screen and (max-width:600px) {
+#formulario{
+  max-width: 100%;
+  background-color: rgb(198, 197, 197);
+}
+#tabla{
+  max-width: 100%;
+}
+  
 }
 </style>

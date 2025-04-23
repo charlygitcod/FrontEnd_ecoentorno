@@ -27,7 +27,7 @@
       </div>
       
       <!-- Formulario para agregar/editar credenciales -->
-      <div class="form-wrapper">
+      <div id="agregarcredencial" class="form-wrapper">
         <h1>{{ editModeCredencial ? 'Editar Credencial' : 'Agregar Credencial' }}</h1>
         <form @submit.prevent="guardarCredencial">
           <div class="form-group">
@@ -171,14 +171,20 @@ const resetCredencial = () => {
 // Obtener la lista de credenciales al montar el componente
 onMounted(obtenerCredenciales);
 </script>
+
 <style scoped>
+
 .table-container {
   width: 100%;
   margin-top: 20px;
 }
+h3{
+  
+  text-align: center;
+}
 
 table {
-  width: 100%;
+  width: 95%;
   background-color: antiquewhite;
   border-collapse: collapse;
 }
@@ -216,9 +222,7 @@ th {
   border-radius: 5px;
 }
 
-.form-wrapper {
-  margin-top: 20px;
-}
+
 
 .form-group {
   margin-bottom: 15px;
@@ -253,5 +257,22 @@ th {
 
 .form-error, .form-success {
   color: red;
+}
+#agregarcredencial{
+  max-width: 60%;
+  
+    
+  }
+
+@media screen   and (max-width:500px) {
+
+  #agregarcredencial{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    
+    
+  }
+ 
 }
 </style>

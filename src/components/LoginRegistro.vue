@@ -1,6 +1,6 @@
 <template>
   <div class="form-container">
-    <div class="form-wrapper">
+    <div id="conraper" class="form-wrapper">
       <!-- Logo de la aplicación -->
       <img src="../components/icons/favicon-ecoentornos-1920w.png" alt="Logo de la App" class="logo" />
       
@@ -94,30 +94,37 @@ const loginUsuario = async () => {
 </script>
 
 <style>
-body {
-  background: linear-gradient(to right, #e18dfa, #9acff3);
+* {
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
-}
-
-.form-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
   box-sizing: border-box;
 }
 
-.form-wrapper {
-  background-color: #f9f9f9;
-  padding: 30px;
+body {
+  background: linear-gradient(to right, #e18dfa, #9acff3);
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  justify-content: center;
+  align-items: center;
+}
+
+.form-container {
+ 
+  width: 100%;
+  justify-content: center;
+  padding: 20px;
+  align-items: center;
+}
+
+#conraper{
+  text-align: center;
+  width: 25%;
+  background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  width: 100%;
-  max-width: 400px;
 }
 
 .logo {
@@ -153,7 +160,6 @@ h2 {
 .form-input {
   width: 100%;
   padding: 12px;
-  box-sizing: border-box;
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 1rem;
@@ -194,45 +200,11 @@ h2 {
   font-size: 0.9rem;
 }
 
-/* Media Queries para diferentes tamaños de pantalla */
-@media (max-width: 768px) {
-  .form-wrapper {
-    padding: 25px;
-  }
-  
-  .app-name {
-    font-size: 1.3rem;
-  }
-  
-  h2 {
-    font-size: 1.1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .form-wrapper {
-    padding: 20px;
-    max-width: 90%;
-  }
-  
-  .logo {
-    width: 70px;
-  }
-  
-  .app-name {
-    font-size: 1.2rem;
-  }
-  
-  .form-input, .form-submit-button {
-    padding: 10px;
-  }
-}
-
-@media (max-height: 600px) {
-  .form-container {
-    align-items: flex-start;
-    padding-top: 30px;
-    padding-bottom: 30px;
+@media screen and (max-width: 600px) {
+  #conraper{
+    width: 90%;
+    
   }
 }
 </style>
+

@@ -1,8 +1,11 @@
 <template>
+  <header>
+    <h1>Registrar Pesos</h1>
+  </header>
   <div class="admin-section">
-    <h2>Registrar Pesos</h2>
+    
     <div class="content-container">
-      <div class="form-wrapper">
+      <div id="formulario" class="form-wrapper">
         <form @submit.prevent="agregarRegistro">
           <div class="form-group">
             <label for="tipo">Tipo de Registro:</label>
@@ -44,7 +47,7 @@
         <input type="month" v-model="filtroMes" class="form-input" />
       </div>
 
-      <div class="table-container">
+      <div id="tabla"  class="table-container">
         <table>
           <thead>
             <tr>
@@ -173,17 +176,34 @@ const obtenerFechaHoraActual = () => {
 </script>
 
 <style scoped>
+header{
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: linear-gradient(to right,#9acff3, #e18dfa );
+  
+  
+}
+h1{
+  text-align: center;
+}
+
 .admin-section {
   padding: 20px;
+  text-align: center;
 }
 
 .content-container {
   display: flex;
   flex-direction: column;
+  text-align: center;
 }
 
 .form-wrapper {
+  
   margin-bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .form-group {
@@ -202,6 +222,7 @@ const obtenerFechaHoraActual = () => {
 .cont-btn {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .form-submit-button {
@@ -222,7 +243,10 @@ const obtenerFechaHoraActual = () => {
 table {
   width: 100%;
   background-color: antiquewhite;
-  border-collapse: collapse;
+  
+}
+#tabla{
+  max-width: 100%;
 }
 
 th, td {
@@ -237,5 +261,23 @@ th {
 
 .download-btn {
   margin-top: 20px;
+}
+#formulario{
+    
+    max-width: 40%;
+    
+    
+  }
+
+@media screen and (max-width:900px) {
+
+  #formulario{
+    background-color: #aba5a5;
+    max-width: 90%;
+    margin-top: 40px;
+  }
+  #tabla{
+  max-width: 100%;
+}
 }
 </style>

@@ -1,8 +1,8 @@
 <template>
-  <div class="admin-container">
+  <div id="contprincipal" class="admin-container">
     <h2>Administración</h2>
     <div class="menu">
-      <button @click="mostrarSeccion('usuarios')">Administrar Usuarios</button>
+      <button id="boton" @click="mostrarSeccion('usuarios')">Administrar Usuarios</button>
       <button @click="mostrarSeccion('credenciales')">Administrar Credenciales</button>
     </div>
     <div class="content">
@@ -42,12 +42,7 @@ onMounted(() => {
 </script>
 
 <style>
-.admin-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-}
+
 
 h2 {
   text-align: center;
@@ -75,9 +70,15 @@ h2 {
 
 .content {
   width: 100%;
-  max-width: 1200px;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+@media screen and (max-width:600px) {
+  #boton{
+    margin: 10px;
+  }
+  
 }
 </style>
