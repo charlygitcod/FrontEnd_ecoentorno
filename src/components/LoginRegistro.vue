@@ -2,7 +2,7 @@
   <div class="form-container">
     <div id="conraper" class="form-wrapper">
       <!-- Logo de la aplicación -->
-      <img src="../components/icons/favicon-ecoentornos-1920w.png" alt="Logo de la App" class="logo" />
+      <img src="../components/icons/logo.png" alt="Logo de la App" class="logo" />
       
       <!-- Nombre de la aplicación -->
       <h1 class="app-name">SAFE-CONTROL</h1>
